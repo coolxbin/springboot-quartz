@@ -1,0 +1,30 @@
+logging:
+  level:
+    org.mallen: debug
+spring:
+  quartz:
+    job-store-type: jdbc
+    auto-startup: true
+    wait-for-jobs-to-complete-on-shutdown: true
+    # 覆盖job信息，以便能更新cron表达式。注意，如果使用了job的dataMap，如果此处设置为true，同样会被覆盖掉。
+    # 如果是这种场景，请自行修改QRTZ_CRON_TRIGGERS表中的cron表达式。
+    overwrite-existing-jobs: true
+  jpa:
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/mallen?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    hikari:
+      # 校验连接使用的sql，从5.1.3之后的mysql，官网建议使用ping。参见https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-usagenotes-tomcat.html
+      connection-test-query: /* ping */
+      maximum-pool-size: 10
+app:
+  datasource:
+    quartz:
+      # 以下属性与HikariDataSource类的属性一致
+      jdbcUrl: jdbc:mysql://localhost:3306/SPRING_BOOT_QUARTZ?useUnicode=true&characterEncoding=utf-8
+      username: root
+      password: root
+      connection-test-query: /* ping */
+      maximum-pool-size: 10
